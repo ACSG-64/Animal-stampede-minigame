@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 1f;
-    private float horizontalInput;
-    private readonly float horizontalBoundRange = 10;
+    public float horizontalBoundRange = 10;
+    public GameObject projectilePrefab;
+    private float horizontalInput;    
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,12 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        MoveHorizontally();
+        FireProjectile();
+    }
+
+    private void MoveHorizontally()
     {
         horizontalInput = Input.GetAxis("Horizontal");
 
@@ -32,5 +39,13 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.Translate(horizontalInput * speed * Time.deltaTime * Vector3.right);
+    }
+
+    private void FireProjectile()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+        }
     }
 }
